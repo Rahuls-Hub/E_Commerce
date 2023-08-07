@@ -3,9 +3,23 @@ const cors = require('cors');
 const {v4: uuidv4}=require('uuid');
 const stripe=require('stripe')('sk_test_51Mhs0wSAdJ9aoVinlgJOSqKe8RhMYd0C33F9ys7SPnIeUZ8gnAeW82wlHkvDVm23KZlNQ6eqWA3LzU5sZNJLtXlw00TuWCcz9j');
 //const helmet =require('helmet')
+const bcrypt = require('bcrypt');
+
 
 const app = express();
 app.use(cors());
+const saltRounds = 10
+const password = "Admin@123"
+bcrypt
+  .genSalt(saltRounds)
+  .then(salt => {
+    console.log('Salt: ', salt)
+    return bcrypt.hash(password, salt)
+  })
+  .then(hash => {
+    console.log('Hash: ', hash)
+  })
+  .catch(err => console.error(err.message))
 
 
 app.use(express.json());
